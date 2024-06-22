@@ -1,0 +1,47 @@
+﻿<Window x:Class="SWENTourPlanner.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SWENTourPlanner"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" MinWidth="520" MinHeight="200">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="0">
+            <Button Content="File" Command="{Binding OpenFileCommand}" Margin="5" MinWidth="100"/>
+            <TextBox Margin="5" MinWidth="550"/>
+            <!--<Button Content="Help" Command="{Binding HelpButtonTodo}" Margin="5" MinWidth="100"/>-->
+        </StackPanel>
+
+        <!-- ListView placed in the first row, will expand as the window grows -->
+        <ListView ItemsSource="{Binding Tours}" SelectedItem="{Binding SelectedTour}" Grid.Row="1">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="125" />
+                    <GridViewColumn Header="Description" DisplayMemberBinding="{Binding Description}" Width="125"/>
+                    <GridViewColumn Header="From" DisplayMemberBinding="{Binding From}" Width="125"/>
+                    <GridViewColumn Header="To" DisplayMemberBinding="{Binding To}" Width="125"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <!-- StackPanel to hold buttons placed in the second row -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="2">
+            <Button Content="Add Tour" Command="{Binding AddTourCommand}" Margin="5" MinWidth="100"/>
+            <Button Content="Edit Tour" Command="{Binding EditTourCommand}" Margin="5" MinWidth="100"/>
+            <Button Content="Delete Tour" Command="{Binding DeleteTourCommand}" Margin="5" MinWidth="100"/>
+            <Button Content="Show Logs" Command="{Binding ShowTourLog}" Margin="5" MinWidth="100"/>
+        </StackPanel>
+      
+    </Grid>
+</Window>

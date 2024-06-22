@@ -1,0 +1,35 @@
+﻿<Window x:Class="SWENTourPlanner.TourLogView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SWENTourPlanner"
+        mc:Ignorable="d"
+        Title="TourLogView" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <ListView Name="TourLogListView" ItemsSource="{Binding TourLogs}" SelectedItem="{Binding SelectedTourLog}" Grid.Row="0" Margin="10">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Date" DisplayMemberBinding="{Binding Date}" Width="100"/>
+                    <GridViewColumn Header="Comment" DisplayMemberBinding="{Binding Comment}" Width="200"/>
+                    <GridViewColumn Header="Difficulty" DisplayMemberBinding="{Binding Difficulty}" Width="100"/>
+                    <GridViewColumn Header="Total Distance" DisplayMemberBinding="{Binding TotalDistance}" Width="100"/>
+                    <GridViewColumn Header="Total Time" DisplayMemberBinding="{Binding TotalTime}" Width="100"/>
+                    <GridViewColumn Header="Rating" DisplayMemberBinding="{Binding Rating}" Width="100"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center" Margin="10">
+            <Button Content="Add Log" Command="{Binding AddTourLogCommand}" Margin="5" Width="75"/>
+            <Button Content="Edit Log" Command="{Binding EditTourLogCommand}" Margin="5" Width="75"/>
+            <Button Content="Delete Log" Command="{Binding DeleteTourLogCommand}" Margin="5" Width="75"/>
+            <Button Content="Save Logs" Command="{Binding SaveTourLogCommand}" Margin="5" Width="75"/>
+        </StackPanel>
+    </Grid>
+</Window>
