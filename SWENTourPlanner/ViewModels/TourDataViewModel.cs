@@ -1,8 +1,14 @@
 ﻿using SWENTourPlanner.Models;
 using System;
 using System.ComponentModel;
+using System.Net.Http;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices.JavaScript;
 using System.Windows.Input;
+using Newtonsoft.Json.Linq;
+using System.Collections.ObjectModel;
+using Newtonsoft.Json;
+
 
 namespace SWENTourPlanner.ViewModels
 {
@@ -12,6 +18,9 @@ namespace SWENTourPlanner.ViewModels
         private string _from;
         private string _to;
         private string _description;
+
+        public ObservableCollection<string> AvailableLocations { get; } = new ObservableCollection<string>();
+
 
         public string Name
         {
@@ -59,6 +68,37 @@ namespace SWENTourPlanner.ViewModels
         public TourDataViewModel()
         {
             SubmitCommand = new RelayCommand(param => Submit(), param => CanSubmit());
+
+            LoadCitiesAsync();
+        }
+
+        private async void LoadCitiesAsync()
+        {
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    string username = "if23b052"; // Ihr GeoNames Benutzername
+                    string url = $"http://api.geonames.org/searchJSON?country=at&maxRows=1000&featureClass=P&username={username}";
+
+                    var response = await client.GetAsync(url);
+                    response.EnsureSuccessStatusCode();
+
+                    string json = await response.Content.ReadAsStringAsync();
+                    dynamic data = JsonConvert.DeserializeObject(json);
+
+                    AvailableLocations.Clear();
+                    foreach (var city in data.geonames)
+                    {
+                        AvailableLocations.Add(city.name.ToString());
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Fehlerbehandlung, z.B. Logging oder Benutzerbenachrichtigung
+                Console.WriteLine($"Fehler beim Laden der Städte: {ex.Message}");
+            }
         }
 
         private void Submit()
@@ -117,6 +157,7 @@ namespace SWENTourPlanner.ViewModels
                 return result;
             }
         }
+
     }
 
     public class TourDataEventArgs : EventArgs

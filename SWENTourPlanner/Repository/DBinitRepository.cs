@@ -3,9 +3,15 @@ using SWENTourPlanner.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
 using System.Xml.Linq;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace MonsterTradingCardGame.Repository
 {
@@ -28,8 +34,8 @@ namespace MonsterTradingCardGame.Repository
             DropTable("tour");
             DropTable("tourlog");
 
-            CreateTable("tour", "CREATE TABLE IF NOT EXISTS tour (id VARCHAR(255) PRIMARY KEY, name VARCHAR(255) NOT NULL, description VARCHAR(255), tour_from VARCHAR(255) NOT NULL, tour_to VARCHAR(255) NOT NULL, transport_type VARCHAR(255) NOT NULL, distance VARCHAR(255) NOT NULL, estimated_time VARCHAR(255) NOT NULL, information VARCHAR(255));\r\n");
-            CreateTable("tourlog", "CREATE TABLE IF NOT EXISTS tourlog (id VARCHAR(255) PRIMARY KEY, cardtotrade VARCHAR(255) NOT NULL, card_type VARCHAR(255), MinimumDamage double PRECISION, username VARCHAR(255) REFERENCES users(username));");
+            CreateTable("tours", "CREATE TABLE IF NOT EXISTS tours (tour_id SERIAL PRIMARY KEY,name VARCHAR(255) NOT NULL,description TEXT,from_location VARCHAR(255),to_location VARCHAR(255),transport_type VARCHAR(100),estimated_distance FLOAT,estimated_time INTERVAL,route_image_url VARCHAR(255),created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);");
+            CreateTable("tour_logs", " CREATE TABLE tour_logs (log_id SERIAL PRIMARY KEY, tour_id INT NOT NULL, log_date TIMESTAMP, comment TEXT, difficulty VARCHAR(50), total_distance FLOAT, total_time INTERVAL, rating INT, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, FOREIGN KEY (tour_id) REFERENCES tours(tour_id) ON DELETE CASCADE)");
         }
 
         private void DropTable(string tableName)

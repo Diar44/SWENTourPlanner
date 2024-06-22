@@ -9,16 +9,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Remove="Placeholder.jpg" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <PackageReference Include="Extended.Wpf.Toolkit" Version="4.6.0" />
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	  <PackageReference Include="Npgsql" Version="8.0.3" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Resource Include="Placeholder.jpg" />
 	</ItemGroup>
 
 </Project>
