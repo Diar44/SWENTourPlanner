@@ -1,4 +1,5 @@
-﻿using SWENTourPlanner.Models;
+﻿using log4net;
+using SWENTourPlanner.Models;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -9,6 +10,8 @@ namespace SWENTourPlanner.ViewModels
 {
     public class MainViewModel : INotifyPropertyChanged
     {
+        private static readonly ILog log = LogManager.GetLogger(typeof(MainWindow));
+
         private ObservableCollection<Tour> _tours;
         public ObservableCollection<Tour> Tours
         {
@@ -52,10 +55,14 @@ namespace SWENTourPlanner.ViewModels
             ShowTourLog = new RelayCommand(param => OpenTourLogs());
             OpenFileCommand = new RelayCommand(param => OpenFileDialogMethod());
             _logs = new Dictionary<string, ObservableCollection<TourLog>>();
+
+            log.Info("MainWindow initialized.");
         }
 
         private void OpenFileDialogMethod()
         {
+            log.Debug("OpenFileDialog.");
+
             var dialog = new Microsoft.Win32.OpenFileDialog();
             dialog.DefaultExt = ".txt"; // Default file extension
             dialog.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension
@@ -74,6 +81,8 @@ namespace SWENTourPlanner.ViewModels
 
         private void AddTour()
         {
+            log.Debug("AddTour Button clicked");
+
             inputWindow = new TourData();
             inputViewModel = new TourDataViewModel();
             inputViewModel.DataSubmitted += TourDataViewModel_DataSubmitted;
@@ -92,10 +101,14 @@ namespace SWENTourPlanner.ViewModels
 
         private void DeleteTour()
         {
+            log.Debug("DeleteTour Button clicked");
+
             Tours.Remove(SelectedTour);
         }
         private void EditTour()
         {
+            log.Debug("EditTour Button clicked");
+
 
             if (SelectedTour != null)
             {
@@ -113,12 +126,17 @@ namespace SWENTourPlanner.ViewModels
         }
         private void EditTour_CloseWindow(object? sender, EventArgs e)
         {
+            log.Debug("EditTour CloseWindow Button clicked");
+
             editWindow.Close();
         }
 
 
         public void OpenTourLogs()
         {
+            log.Debug("OpenTourLogs Button clicked");
+
+
             if (SelectedTour != null)
             {
                 tourLogViewModel = new TourLogViewModel();

@@ -8,6 +8,7 @@ using System.Windows.Input;
 using Newtonsoft.Json.Linq;
 using System.Collections.ObjectModel;
 using Newtonsoft.Json;
+using log4net;
 
 
 namespace SWENTourPlanner.ViewModels
@@ -18,6 +19,8 @@ namespace SWENTourPlanner.ViewModels
         private string _from;
         private string _to;
         private string _description;
+
+        private static readonly ILog log = LogManager.GetLogger(typeof(MainWindow));
 
         public ObservableCollection<string> AvailableLocations { get; } = new ObservableCollection<string>();
 
@@ -69,17 +72,21 @@ namespace SWENTourPlanner.ViewModels
         {
             SubmitCommand = new RelayCommand(param => Submit(), param => CanSubmit());
 
+            log.Info("Tour Add initialized.");
+
             LoadCitiesAsync();
         }
 
         private async void LoadCitiesAsync()
         {
+            log.Debug("Cities Loaded from Api");
+
             try
             {
                 using (var client = new HttpClient())
                 {
-                    string username = "if23b052"; // Ihr GeoNames Benutzername
-                    string url = $"http://api.geonames.org/searchJSON?country=at&maxRows=1000&featureClass=P&username={username}";
+                    string username = "if23b052";
+                    string url = $"http://api.geonames.org/searchJSON?maxRows=1000&featureClass=P&username={username}";
 
                     var response = await client.GetAsync(url);
                     response.EnsureSuccessStatusCode();
@@ -103,6 +110,8 @@ namespace SWENTourPlanner.ViewModels
 
         private void Submit()
         {
+            log.Debug("TourData Submit Button clicked");
+
             Tour newTour = new Tour
             {
                 Name = this.Name,

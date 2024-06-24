@@ -1,4 +1,5 @@
-﻿using SWENTourPlanner.ViewModels;
+﻿using log4net;
+using SWENTourPlanner.ViewModels;
 using System.Windows;
 
 namespace SWENTourPlanner

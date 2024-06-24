@@ -10,6 +10,7 @@
 
 	<ItemGroup>
 	  <PackageReference Include="Extended.Wpf.Toolkit" Version="4.6.0" />
+	  <PackageReference Include="log4net" Version="2.0.17" />
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	  <PackageReference Include="Npgsql" Version="8.0.3" />
 	</ItemGroup>

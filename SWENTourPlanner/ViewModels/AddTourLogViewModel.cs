@@ -1,4 +1,5 @@
-﻿using SWENTourPlanner.Models;
+﻿using log4net;
+using SWENTourPlanner.Models;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -10,6 +11,8 @@ namespace SWENTourPlanner.ViewModels
 {
     public class AddTourLogViewModel : INotifyPropertyChanged, IDataErrorInfo
     {
+        private static readonly ILog log = LogManager.GetLogger(typeof(MainWindow));
+
         private DateTime _logDate;
         public DateTime LogDate
         {
@@ -95,6 +98,8 @@ namespace SWENTourPlanner.ViewModels
 
         public AddTourLogViewModel()
         {
+            log.Info("TourLog Add initialized.");
+
             // Initialize LogDate to today's date
             LogDate = DateTime.Today;
 
@@ -110,6 +115,8 @@ namespace SWENTourPlanner.ViewModels
 
         private void Save(object obj)
         {
+            log.Debug("TourLog Save Button Clicked.");
+
             TourLog newTourLog = new TourLog
             {
                 Date = this.LogDate,

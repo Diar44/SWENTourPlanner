@@ -2,12 +2,15 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using log4net;
 using SWENTourPlanner.Models;
 
 namespace SWENTourPlanner.ViewModels
 {
     internal class EditTourLogViewModel : INotifyPropertyChanged, IDataErrorInfo
     {
+        private static readonly ILog log = LogManager.GetLogger(typeof(MainWindow));
+
         private TourLog _selectedTourLog;
         public TourLog SelectedTourLog
         {
@@ -19,11 +22,15 @@ namespace SWENTourPlanner.ViewModels
 
         public EditTourLogViewModel()
         {
+            log.Info("TourLog Edit initialized.");
+
             SaveCommand = new RelayCommand(param => Save());
         }
 
         private void Save()
         {
+            log.Debug("TourLog Save Button Clicked.");
+
             CloseWindow?.Invoke(this, new EventArgs());
         }
 

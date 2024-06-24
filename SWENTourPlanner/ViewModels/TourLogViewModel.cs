@@ -1,4 +1,5 @@
-﻿using SWENTourPlanner.Models;
+﻿using log4net;
+using SWENTourPlanner.Models;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -8,6 +9,8 @@ namespace SWENTourPlanner.ViewModels
 {
     public class TourLogViewModel : INotifyPropertyChanged
     {
+        private static readonly ILog log = LogManager.GetLogger(typeof(MainWindow));
+
         private ObservableCollection<TourLog> _tourlogs;
         public ObservableCollection<TourLog> TourLogs
         {
@@ -36,6 +39,8 @@ namespace SWENTourPlanner.ViewModels
 
         public TourLogViewModel()
         {
+            log.Info("TourLog List initialized.");
+
             TourLogs = new ObservableCollection<TourLog>();
             AddTourLogCommand = new RelayCommand(param => AddTourLog());
             EditTourLogCommand = new RelayCommand(param => EditTourLog());
@@ -45,6 +50,8 @@ namespace SWENTourPlanner.ViewModels
 
         private void AddTourLog()
         {
+            log.Debug("TourLog Add Button Clicked.");
+
             addTourLog = new AddTourLog();
             addTourLogViewModel = new AddTourLogViewModel();
             addTourLogViewModel.DataSubmitted += TourLogViewModel_DataSubmitted;
@@ -63,10 +70,14 @@ namespace SWENTourPlanner.ViewModels
 
         private void DeleteTourLog()
         {
+            log.Debug("TourLog Delete Button Clicked.");
+
             TourLogs.Remove(SelectedTourLog);
         }
         private void EditTourLog()
         {
+            log.Debug("TourLog Edit Button Clicked.");
+
             editLogViewModel = new EditTourLogViewModel();
             editLogViewModel.SelectedTourLog = SelectedTourLog;
 
@@ -85,6 +96,8 @@ namespace SWENTourPlanner.ViewModels
 
         private void SaveLogs()
         {
+            log.Debug("TourLog Save Button Clicked.");
+
             DataSubmitted?.Invoke(this, new ListTourLogEventArgs(TourLogs));
         }
 
