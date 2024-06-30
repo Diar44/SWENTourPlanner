@@ -35,7 +35,7 @@ namespace MonsterTradingCardGame.Repository
             DropTable("tourlog");
 
             CreateTable("tours", "CREATE TABLE IF NOT EXISTS tours (tour_id SERIAL PRIMARY KEY,name VARCHAR(255) NOT NULL,description TEXT,from_location VARCHAR(255),to_location VARCHAR(255),transport_type VARCHAR(100),estimated_distance FLOAT,estimated_time INTERVAL,route_image_url VARCHAR(255),created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);");
-            CreateTable("tour_logs", " CREATE TABLE tour_logs (log_id SERIAL PRIMARY KEY, tour_id INT NOT NULL, log_date TIMESTAMP, comment TEXT, difficulty VARCHAR(50), total_distance FLOAT, total_time INTERVAL, rating INT, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, FOREIGN KEY (tour_id) REFERENCES tours(tour_id) ON DELETE CASCADE)");
+            CreateTable("tour_logs", "CREATE TABLE tour_logs (log_id SERIAL PRIMARY KEY,tour_id INT NOT NULL,log_date TIMESTAMP,comment TEXT,difficulty VARCHAR(50),total_distance FLOAT,total_time INTERVAL,rating INT,created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,FOREIGN KEY (tour_id) REFERENCES tours(tour_id) ON DELETE CASCADE);");
         }
 
         private void DropTable(string tableName)

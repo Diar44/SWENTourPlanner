@@ -11,5 +11,11 @@
         public int Rating { get; set; }
         public int TourId { get; set; }
         public Tour Tour { get; set; }
+        public bool IsNew { get; set; }
+
+        public TourLog()
+        {
+            Date = DateTime.Now;
+        }
     }
 }

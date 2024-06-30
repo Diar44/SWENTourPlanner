@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:wpf="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
         xmlns:local="clr-namespace:SWENTourPlanner"
         xmlns:converters="clr-namespace:SWENTourPlanner.Converters"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
@@ -58,7 +59,10 @@
         <TextBlock Grid.Row="6" Text="Description:" Margin="0,10,0,0"/>
         <TextBox Grid.Row="7" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <Image Grid.Row="8" Source="/Images/Placeholder.jpg" Margin="100,39,413,-189"/>
+
+        <wpf:WebView2 x:Name="webView" Source="{Binding WebViewSource}" Grid.Row="9" Margin="10,10,319,-179"/>
+
+        <Button Grid.Row="9" Content="LoadMap" Command="{Binding LoadMapCommand}" HorizontalAlignment="Left" Width="164" Margin="494,67,0,-67"/>
 
         <Button Grid.Row="9" Content="Submit" Command="{Binding SubmitCommand}" HorizontalAlignment="Left" Margin="494,116,0,-112" Width="164"/>
     </Grid>

@@ -1,16 +1,20 @@
 ﻿using log4net;
 using SWENTourPlanner.Models;
+using SWENTourPlanner.Repository;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
+using SWENTourPlanner.Repository;
 
 namespace SWENTourPlanner.ViewModels
 {
     public class MainViewModel : INotifyPropertyChanged
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(MainWindow));
+
+        private readonly TourDatabaseHelper _tourDatabaseHelper;
 
         private ObservableCollection<Tour> _tours;
         public ObservableCollection<Tour> Tours
@@ -55,10 +59,30 @@ namespace SWENTourPlanner.ViewModels
             ShowTourLog = new RelayCommand(param => OpenTourLogs());
             OpenFileCommand = new RelayCommand(param => OpenFileDialogMethod());
             _logs = new Dictionary<string, ObservableCollection<TourLog>>();
+            _tourDatabaseHelper = new TourDatabaseHelper();
 
             log.Info("MainWindow initialized.");
+
+            RefreshTours();
         }
 
+        private void RefreshTours()
+        {
+            try
+            {
+                var toursFromDb = _tourDatabaseHelper.GetTours();
+                Tours.Clear();
+                foreach (var tour in toursFromDb)
+                {
+                    Tours.Add(tour);
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error fetching tours from database", ex);
+                MessageBox.Show("Error fetching tours from database. See log for details.");
+            }
+        }
         private void OpenFileDialogMethod()
         {
             log.Debug("OpenFileDialog.");
@@ -103,7 +127,20 @@ namespace SWENTourPlanner.ViewModels
         {
             log.Debug("DeleteTour Button clicked");
 
-            Tours.Remove(SelectedTour);
+            if (SelectedTour != null)
+            {
+                try
+                {
+                    _tourDatabaseHelper.DeleteTour(SelectedTour.Id);
+                    log.Info($"Deleted tour with ID {SelectedTour.Id}.");
+                    Tours.Remove(SelectedTour);
+                }
+                catch (Exception ex)
+                {
+                    log.Error("Error deleting tour from database", ex);
+                    MessageBox.Show("Error deleting tour from database. See log for details.");
+                }
+            }
         }
         private void EditTour()
         {
@@ -121,6 +158,9 @@ namespace SWENTourPlanner.ViewModels
                 editViewModel.CloseWindow += EditTour_CloseWindow;
 
                 editWindow.ShowDialog();
+
+                _tourDatabaseHelper.UpdateTour(SelectedTour);
+                log.Info($"Updated tour with ID {SelectedTour.Id}.");
             }
 
         }
@@ -136,10 +176,9 @@ namespace SWENTourPlanner.ViewModels
         {
             log.Debug("OpenTourLogs Button clicked");
 
-
             if (SelectedTour != null)
             {
-                tourLogViewModel = new TourLogViewModel();
+                tourLogViewModel = new TourLogViewModel(_selectedTour.Id);
                 if (_logs.ContainsKey(SelectedTour.Name))
                 {
                     tourLogViewModel.TourLogs = _logs[SelectedTour.Name];

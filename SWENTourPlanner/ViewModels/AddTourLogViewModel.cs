@@ -124,8 +124,9 @@ namespace SWENTourPlanner.ViewModels
                 Difficulty = this.Difficulty.ToString(),
                 TotalDistance = this.TotalDistance,
                 TotalTime = this.TotalTime,
-                Rating = this.Rating
-            };
+                Rating = this.Rating,
+                IsNew = true
+        };
             DataSubmitted?.Invoke(this, new TourLogEventArgs(newTourLog));
         }
 

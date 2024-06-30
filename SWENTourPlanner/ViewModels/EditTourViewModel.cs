@@ -1,6 +1,7 @@
 ﻿using log4net;
 using Newtonsoft.Json;
 using SWENTourPlanner.Models;
+using SWENTourPlanner.Repository;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
